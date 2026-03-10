@@ -27,7 +27,7 @@ Perfect for job seekers who want to maximize their chances of passing Applicant 
 
 ### Application Interface
 
-![ATS Resume Agent - Main Interface](file_tools\demo.png)
+![ATS Resume Agent - Main Interface](file_tools/demo.png)
 
 ### Agents Specification
 
