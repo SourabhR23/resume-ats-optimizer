@@ -1,10 +1,20 @@
 from crewai import Agent
+from crewai.llm import LLM
+from dotenv import load_dotenv
 import os
 
-# Use your working OpenAI key
-OPEN_AI_KEY = os.getenv("OPEN_AI_KEY")
-#os.environ["OPENAI_API_KEY"] = OPEN_AI_KEY
+load_dotenv()
 
+# Set API key
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Define LLM with custom endpoint
+llm = LLM(
+    model="openai/gpt-4.1-mini",
+    base_url="https://api.euron.one/api/v1/euri",
+    temperature=0.2,
+    max_tokens=2000
+)
 
 MODEL = "gpt-4o-mini"
 
@@ -16,7 +26,7 @@ def build_parser_agent():
             "You efficiently clean resume text by removing artifacts and normalizing formatting. "
             "Focus on speed and accuracy - preserve all important content while removing noise."
         ),
-        model=MODEL,
+        llm=llm,
         temperature=0.0,
         max_iter=1,
         max_execution_time=120,
@@ -33,7 +43,7 @@ def build_ats_writer_agent():
             "You strategically place keywords, use strong action verbs, and quantify all achievements. "
             "You work quickly and deliver results that pass ATS systems."
         ),
-        model=MODEL,
+        llm=llm,
         temperature=0.3,
         max_iter=1,
         max_execution_time=120
@@ -48,7 +58,7 @@ def build_evaluator_agent():
             "You are a precise ATS scoring expert who quickly identifies gaps and provides specific, "
             "actionable recommendations. You focus on keyword density, section structure, and measurable achievements."
         ),
-        model=MODEL,
+        llm=llm,
         temperature=0.0,
         max_iter=1,
         max_execution_time=120
@@ -59,7 +69,7 @@ def build_refiner_agent():
         role="Bullet Point Refiner",
         goal="Transform bullet points into high-impact, ATS-optimized statements with strong metrics.",
         backstory="You excel at creating powerful bullet points that combine action verbs, specific achievements, and quantified results. You work efficiently to maximize impact.",
-        model=MODEL,
+        llm=llm,
         temperature=0.2,
         max_iter=1,
         max_execution_time=120
